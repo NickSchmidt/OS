@@ -1,79 +1,214 @@
-<!DOCTYPE html>
-<html>
+ <!DOCTYPE html>
+ <html>
+ <!--
++<head>
++
++
++<head>
++<script>
++function myFunction()
++{
++alert(shellStatus);
++}
++</script>
++</head>
++
++
++<body>
++<button onclick = "myFunction()">Try it</button>
++</body>
++
++
++<head>
++<script>
++function displayIP()
++{
++
++
++alert(shellWhereami);
++//ip = 2+2;
++//var ip= '<#echo var="REMOTE_ADDR"';
++alert("Your IP Address is :"+ip+" ");
++//alert("Hello World! " + ip);
++}
++</script>
++</head>
++<body>
++<button onclick="displayIP()">IP Address</button>
++</body>
++-->
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Os : Operating Systems Fall 2013" />
+<input type="submit" value="Size of Elysium - OS" 
+    onclick="window.location='http://www.youtube.com/watch?v=dQw4w9WgXcQ';" />  
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+<!--
++<object width="425" height="350">
++  <param name="movie" value="http://www.youtube.com/v/AyPzM5WK8ys" />
++  <param name="wmode" value="transparent" />
++  <embed src="http://www.youtube.com/v/AyPzM5WK8ys"
++         type="application/x-shockwave-flash"
++         wmode="transparent" width="425" height="350" />
++</object>
++-->
 
-    <title>Os</title>
-  </head>
 
-  <body>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/NickSchmidt/OS">View on GitHub</a>
 
-          <h1 id="project_title">Os</h1>
-          <h2 id="project_tagline">Operating Systems Fall 2013</h2>
+ <!-----------------------------Add the date to the top of the page-------------------->
+ 
+	<script>
+	function startTime()
+	{
+		var today=new Date();
+		var h=today.getHours();
+		var m=today.getMinutes();
+		var s=today.getSeconds();
+// add a zero in front of numbers<10
+		m=checkTime(m);
+		s=checkTime(s);
+		document.getElementById('txt').innerHTML=h+":"+m+":"+s;
+		t=setTimeout(function(){startTime()},500);
+	}
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/NickSchmidt/OS/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/NickSchmidt/OS/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+	function checkTime(i)
+	{
+		if (i<10)
+			i="0" + i;
+			
+		return i;
+	}
+	</script>
+	
+	<p id="status">Check the size of the OS above ^</p>
+	
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+   <meta name="author"             content="Nicholas A. Schmidt" />
+   <link rel="stylesheet" href="elysium.css" type="text/css" media="screen" />
+   <title>
+      Elysium - OS
+   </title>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+   <!-- Globals CONSTANTS and _Variables. Must included be first. -->
+   <script type="text/javascript" src="globals.js"></script>	
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+   <!-- Host (Hardware Simulation) Routines -->
+   <script type="text/javascript" src="scripts/host/control.js"></script>
+   <script type="text/javascript" src="scripts/host/devices.js"></script>
+   <script type="text/javascript" src="scripts/host/cpu.js"></script>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+   <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
+   <script type="text/javascript" src="scripts/os/interrupt.js"></script>
+   <script type="text/javascript" src="scripts/os/canvastext.js"></script>	
+   <script type="text/javascript" src="scripts/os/console.js"></script>	
+   <script type="text/javascript" src="scripts/os/deviceDriver.js"></script>
+   <script type="text/javascript" src="scripts/os/deviceDriverKeyboard.js"></script>
+   <script type="text/javascript" src="scripts/os/queue.js"></script>
+   <script type="text/javascript" src="scripts/os/shell.js"></script>
+   <script type="text/javascript" src="scripts/os/kernel.js"></script>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+   <!-- Other Routines -->
+   <script type="text/javascript" src="scripts/utils.js"></script>
+   <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+</head>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<body onload="hostInit(); startTime();">
+<div id="txt"></div>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<div id="divMain" style="width:100%;">
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+   <div id="divButtonBar" style="margin:4px;">
+      <input type="button"
+             id = "btnStartOS"
+             name="brnStartOS"
+             class="normal_button"
+             value="Start"
+             tabindex="0"
+             onclick="hostBtnStartOS_click(this);">
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+      <input type="button"
+             id = "btnHaltOS"
+             name="brnHaltOS"
+             class="normal_button"
+             disabled="disabled"
+             value="Halt"
+             tabindex="1"
+             onclick="hostBtnHaltOS_click(this);">
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+      <input type="button"
+             id = "btnReset"
+             name="brnReset"
+             class="normal_button"
+             disabled="disabled"
+             value="Reset"
+             tabindex="2"
+             onclick="hostBtnReset_click(this);">
+   </div>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
+      <canvas id="display"
+              width="650px"
+              height="500px"
+              tabindex="3">
+      </canvas>
+	 <!-- img id = "A NAME" src = "images/FILENAME.whatever" width = '500' height = '500'> -->
+   </div>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+   <div id="divLog" style="margin-left:700px;">
+      <label>
+         Log
+         <br>
+         <textarea name="taLog"
+                   id  ="taLog"
+                   rows="26"
+                   cols="48"
+         ></textarea>
+      </label>
+   </div>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
+   <div id="divUserProgramInput" style="margin-left:700px;">
+      <label>
+         User Program Input
+         <br>
+         <textarea name="taProgramInput"
+                   id  ="taProgramInput"
+                   rows="8"
+                   cols="48"
+         ></textarea>
+      </label>
+   </div>
+   <!--
++   <canvas id="myCanvas" width="578" height="500" style="margin-left: 1100px;"></canvas>
++    <script>
++      var canvas = document.getElementById('myCanvas');
++      var context = canvas.getContext('2d');
++      var imageObj = new Image();
++
++      imageObj.onload = function() {
++        // draw cropped image
++        var sourceX = 150;
++        var sourceY = 0;
++        var sourceWidth = 150;
++        var sourceHeight = 150;
++        var destWidth = sourceWidth;
++        var destHeight = sourceHeight;
++        var destX = canvas.width / 2 - destWidth / 2;
++        var destY = canvas.height / 2 - destHeight / 2;
++
++        context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
++      };
++      imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
++    </script> -->
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Os maintained by <a href="https://github.com/NickSchmidt">NickSchmidt</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+</div>
 
-    
 
-  </body>
-</html>
+<p class="footerText" style="clear:both;">
+   <br>
+   Copyright &copy; 2008 - 2013 All Rights Reserved.
+   <br>
+   Reproduction is prohibited without the express written consent of
+   Nick Schmidt and I guess Alan
+</p>
+</body>
+
+ </html>
