@@ -1,4 +1,4 @@
-AlanBBOS2013
+Elysium OS
 ============
 
 This is my Fall 2013 Operating Systems class initial project.
