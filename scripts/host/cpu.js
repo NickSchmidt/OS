@@ -34,5 +34,55 @@ function Cpu() {
         krnTrace("CPU cycle");
         // TODO: Accumulate CPU usage and profiling statistics here.
         // Do the real work here. Be sure to set this.isExecuting appropriately.
+		if(this.isExecuting)
+		{
+			var opCode = programInput;
+			switch(opCode)
+			{
+				case "A9": // load acc with constant
+				
+				break;
+				case "AD": // load acc from memory
+			
+				break;
+			
+				case "8D": // store the acc in memory 
+			
+				break;
+				case "6D": // add contents of address to contents of acc and stores in acc
+			
+				break;
+				case "A2": // load the xReg with constant
+				
+				break;
+				case "AE": // load the xReg from memory
+				
+				break;
+				case "A0": // load the yReg with constant
+			
+				break;
+				case "AC": // load the yReg from memory
+			
+				break;
+				case "EA": // no operation
+			
+				break;
+				case "00": // Break (system call)
+			
+				break;
+				case "EC": // Compare byte in memory to xReg. Sets the zFlag if equal
+			
+				break;
+				case "D0": // Branch X bytes if zFlag = 0
+			
+				break;
+				case "EE": // increment value of a byte
+			
+				break;
+				case "FF": 
+			
+				break;
+			}
+		}
     };
 }

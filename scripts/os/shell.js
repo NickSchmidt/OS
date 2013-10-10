@@ -121,6 +121,13 @@ function shellInit() {
     sc.description = "<string> - Sets the prompt.";
     sc.function = shellPrompt;
     this.commandList[this.commandList.length] = sc;
+	
+	// run <PID>
+	sc = new ShellCommand();
+	sc.command = "run";
+	sc.description = "run <PID> - runs the program with PID.";
+	sc.function = shellRun;
+	this.commandList[this.commandList.length] = sc;
 
     // processes - list the running processes and their IDs
     // kill <id> - kills the specified process id.
@@ -373,6 +380,23 @@ function shellBsod(args)
 
 function shellLoad(args)
 {
+	var programInput = document.getElementById("taProgramInput").value;
+	var str = /[g-z]/gi;
+	if(!str.test(programInput))
+	{
+		_StdIn.putText("true");
+	}
+	else
+		_StdIn.putText("false");
+	
+	var memoryInput = programInput.split(" ");
+	var i = 0;
+	while (i < memoryInput.length)
+	{
+		document.getElementById(i).innerHTML = memoryInput[i];
+		i++;
+	}
+/*
 	var input = document.getElementById("taProgramInput").value;
 	var i = 0;
 	//var checkIfCode = false;
@@ -389,7 +413,7 @@ function shellLoad(args)
 	if (isCode)
 		_StdIn.putText(input + " is code");
 	else
-		_StdIn.putText(" '" + input + "' " + " is not code");
+		_StdIn.putText(" '" + input + "' " + " is not code");*/
 }
 
 function shellHelp(args)
@@ -400,6 +424,11 @@ function shellHelp(args)
         _StdIn.advanceLine();
         _StdIn.putText("  " + _OsShell.commandList[i].command + " " + _OsShell.commandList[i].description);
     }    
+}
+
+function shellRun(args)
+{
+	_StdIn.putText("Alpaca");
 }
 
 function shellShutdown(args)

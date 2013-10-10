@@ -56,29 +56,7 @@
 
  <!-----------------------------Add the date to the top of the page-------------------->
  
-	<script>
-	function startTime()
-	{
-		var today=new Date();
-		var h=today.getHours();
-		var m=today.getMinutes();
-		var s=today.getSeconds();
-// add a zero in front of numbers<10
-		m=checkTime(m);
-		s=checkTime(s);
-		document.getElementById('txt').innerHTML=h+":"+m+":"+s;
-		t=setTimeout(function(){startTime()},500);
-	}
-
-	function checkTime(i)
-	{
-		if (i<10)
-			i="0" + i;
-			
-		return i;
-	}
-	</script>
-	
+	<p id ="datetime"></>
 	<p id="status">Check the size of the OS above ^</p>
 	
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -200,6 +178,941 @@
 +    </script> -->
 
 </div>
+<table border="1">
+<tr>
+<th>CPU</th>
+</tr>
+<table border="1">
+<tr>
+<th>Acc</th>
+<th>PC</th>
+<th>xReg</th>
+<th>yReg</th>
+<th>zFlag</th>
+</tr>
+<tr>
+<td id = "acc">00</td>
+<td id = "pc">00</td>
+<td id = "xreg">00</td>
+<td id = "yreg">00</td>
+<td id = "zflag">00</td>
+</tr>
+</table>
+
+<table border="1">
+<tr>
+<th>$000</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$010</th>
+<td id = "16">00</td>
+<td id = "17">00</td>
+<td id = "18">00</td>
+<td id = "19">00</td>
+<td id = "20">00</td>
+<td id = "21">00</td>
+<td id = "22">00</td>
+<td id = "23">00</td>
+<td id = "24">00</td>
+<td id = "25">00</td>
+<td id = "26">00</td>
+<td id = "27">00</td>
+<td id = "28">00</td>
+<td id = "29">00</td>
+<td id = "30">00</td>
+<td id = "31">00</td>
+</tr>
+<tr>
+<th>$020</th>
+<td id = "32">00</td>
+<td id = "33">00</td>
+<td id = "34">00</td>
+<td id = "35">00</td>
+<td id = "36">00</td>
+<td id = "37">00</td>
+<td id = "38">00</td>
+<td id = "39">00</td>
+<td id = "40">00</td>
+<td id = "41">00</td>
+<td id = "42">00</td>
+<td id = "43">00</td>
+<td id = "44">00</td>
+<td id = "45">00</td>
+<td id = "46">00</td>
+<td id = "47">00</td>
+</tr>
+<tr>
+<th>$030</th>
+<td id = "48">00</td>
+<td id = "49">00</td>
+<td id = "50">00</td>
+<td id = "51">00</td>
+<td id = "52">00</td>
+<td id = "53">00</td>
+<td id = "54">00</td>
+<td id = "55">00</td>
+<td id = "56">00</td>
+<td id = "57">00</td>
+<td id = "58">00</td>
+<td id = "59">00</td>
+<td id = "60">00</td>
+<td id = "61">00</td>
+<td id = "62">00</td>
+<td id = "63">00</td>
+</tr>
+<tr>
+<th>$040</th>
+<td id = "64">00</td>
+<td id = "65">00</td>
+<td id = "66">00</td>
+<td id = "67">00</td>
+<td id = "68">00</td>
+<td id = "69">00</td>
+<td id = "70">00</td>
+<td id = "71">00</td>
+<td id = "72">00</td>
+<td id = "73">00</td>
+<td id = "74">00</td>
+<td id = "75">00</td>
+<td id = "76">00</td>
+<td id = "77">00</td>
+<td id = "78">00</td>
+<td id = "79">00</td>
+</tr>
+<tr>
+<th>$050</th>
+<td id = "80">00</td>
+<td id = "81">00</td>
+<td id = "82">00</td>
+<td id = "83">00</td>
+<td id = "84">00</td>
+<td id = "85">00</td>
+<td id = "86">00</td>
+<td id = "87">00</td>
+<td id = "88">00</td>
+<td id = "89">00</td>
+<td id = "90">00</td>
+<td id = "91">00</td>
+<td id = "92">00</td>
+<td id = "93">00</td>
+<td id = "94">00</td>
+<td id = "95">00</td>
+</tr>
+<tr>
+<th>$060</th>
+<td id = "96">00</td>
+<td id = "97">00</td>
+<td id = "98">00</td>
+<td id = "99">00</td>
+<td id = "100">00</td>
+<td id = "101">00</td>
+<td id = "102">00</td>
+<td id = "103">00</td>
+<td id = "104">00</td>
+<td id = "105">00</td>
+<td id = "106">00</td>
+<td id = "107">00</td>
+<td id = "108">00</td>
+<td id = "109">00</td>
+<td id = "110">00</td>
+<td id = "111">00</td>
+</tr>
+<tr>
+<th>$070</th>
+<td id = "112">00</td>
+<td id = "113">00</td>
+<td id = "114">00</td>
+<td id = "115">00</td>
+<td id = "116">00</td>
+<td id = "117">00</td>
+<td id = "118">00</td>
+<td id = "119">00</td>
+<td id = "120">00</td>
+<td id = "121">00</td>
+<td id = "122">00</td>
+<td id = "123">00</td>
+<td id = "124">00</td>
+<td id = "125">00</td>
+<td id = "126">00</td>
+<td id = "127">00</td>
+</tr>
+<tr>
+<th>$080</th>
+<td id = "128">00</td>
+<td id = "129">00</td>
+<td id = "130">00</td>
+<td id = "131">00</td>
+<td id = "132">00</td>
+<td id = "133">00</td>
+<td id = "134">00</td>
+<td id = "135">00</td>
+<td id = "136">00</td>
+<td id = "137">00</td>
+<td id = "138">00</td>
+<td id = "139">00</td>
+<td id = "140">00</td>
+<td id = "141">00</td>
+<td id = "142">00</td>
+<td id = "143">00</td>
+</tr>
+<tr>
+<th>$090</th>
+<td id = "144">00</td>
+<td id = "145">00</td>
+<td id = "146">00</td>
+<td id = "147">00</td>
+<td id = "148">00</td>
+<td id = "149">00</td>
+<td id = "150">00</td>
+<td id = "151">00</td>
+<td id = "152">00</td>
+<td id = "153">00</td>
+<td id = "154">00</td>
+<td id = "155">00</td>
+<td id = "156">00</td>
+<td id = "157">00</td>
+<td id = "158">00</td>
+<td id = "159">00</td>
+</tr>
+<tr>
+<th>$0A0</th>
+<td id = "160">00</td>
+<td id = "161">00</td>
+<td id = "162">00</td>
+<td id = "163">00</td>
+<td id = "164">00</td>
+<td id = "165">00</td>
+<td id = "166">00</td>
+<td id = "167">00</td>
+<td id = "168">00</td>
+<td id = "169">00</td>
+<td id = "170">00</td>
+<td id = "171">00</td>
+<td id = "172">00</td>
+<td id = "173">00</td>
+<td id = "174">00</td>
+<td id = "175">00</td>
+</tr>
+<tr>
+<th>$0B0</th>
+<td id = "176">00</td>
+<td id = "177">00</td>
+<td id = "178">00</td>
+<td id = "179">00</td>
+<td id = "180">00</td>
+<td id = "181">00</td>
+<td id = "182">00</td>
+<td id = "183">00</td>
+<td id = "184">00</td>
+<td id = "185">00</td>
+<td id = "186">00</td>
+<td id = "187">00</td>
+<td id = "188">00</td>
+<td id = "189">00</td>
+<td id = "190">00</td>
+<td id = "191">00</td>
+</tr>
+<tr>
+<th>$0C0</th>
+<td id = "192">00</td>
+<td id = "193">00</td>
+<td id = "194">00</td>
+<td id = "195">00</td>
+<td id = "196">00</td>
+<td id = "197">00</td>
+<td id = "198">00</td>
+<td id = "199">00</td>
+<td id = "200">00</td>
+<td id = "201">00</td>
+<td id = "202">00</td>
+<td id = "203">00</td>
+<td id = "204">00</td>
+<td id = "205">00</td>
+<td id = "206">00</td>
+<td id = "207">00</td>
+</tr>
+<tr>
+<th>$0D0</th>
+<td id = "208">00</td>
+<td id = "209">00</td>
+<td id = "210">00</td>
+<td id = "211">00</td>
+<td id = "212">00</td>
+<td id = "213">00</td>
+<td id = "214">00</td>
+<td id = "215">00</td>
+<td id = "216">00</td>
+<td id = "217">00</td>
+<td id = "218">00</td>
+<td id = "219">00</td>
+<td id = "220">00</td>
+<td id = "221">00</td>
+<td id = "222">00</td>
+<td id = "223">00</td>
+</tr>
+<tr>
+<th>$0E0</th>
+<td id = "224">00</td>
+<td id = "225">00</td>
+<td id = "226">00</td>
+<td id = "227">00</td>
+<td id = "228">00</td>
+<td id = "229">00</td>
+<td id = "230">00</td>
+<td id = "231">00</td>
+<td id = "232">00</td>
+<td id = "233">00</td>
+<td id = "234">00</td>
+<td id = "235">00</td>
+<td id = "236">00</td>
+<td id = "237">00</td>
+<td id = "238">00</td>
+<td id = "239">00</td>
+</tr>
+<tr>
+<th>$0F0</th>
+<td id = "240">00</td>
+<td id = "241">00</td>
+<td id = "242">00</td>
+<td id = "243">00</td>
+<td id = "244">00</td>
+<td id = "245">00</td>
+<td id = "246">00</td>
+<td id = "247">00</td>
+<td id = "248">00</td>
+<td id = "249">00</td>
+<td id = "250">00</td>
+<td id = "251">00</td>
+<td id = "252">00</td>
+<td id = "253">00</td>
+<td id = "254">00</td>
+<td id = "255">00</td>
+</tr>
+<tr>
+<th>$100</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$110</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$120</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$130</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$140</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$150</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$160</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$170</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$180</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$190</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$1A0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$1B0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$1C0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$1D0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$1E0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$1F0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$200</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$210</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$220</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$230</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$240</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$250</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$260</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$270</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$280</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$290</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$2A0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$2B0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$2C0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$2D0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$2E0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+<tr>
+<th>$2F0</th>
+<td id = "0">00</td>
+<td id = "1">00</td>
+<td id = "2">00</td>
+<td id = "3">00</td>
+<td id = "4">00</td>
+<td id = "5">00</td>
+<td id = "6">00</td>
+<td id = "7">00</td>
+<td id = "8">00</td>
+<td id = "9">00</td>
+<td id = "10">00</td>
+<td id = "11">00</td>
+<td id = "12">00</td>
+<td id = "13">00</td>
+<td id = "14">00</td>
+<td id = "15">00</td>
+</tr>
+</table> 
 
 
 <p class="footerText" style="clear:both;">
