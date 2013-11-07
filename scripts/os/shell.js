@@ -464,25 +464,8 @@ function shellLoad(args)
 	{
 		document.getElementById(i).innerHTML = memoryInput[i];
 		i++;
-	} ---------------------------------------------------------
-/*
-	var input = document.getElementById("taProgramInput").value;
-	var i = 0;
-	//var checkIfCode = false;
-	var isCode = false;
-	while(i < input.length)
-	{
-		var validate = input[i];
-		if (validate != "1" || "2" || "3" || "4" || "5" || "6" || "7" || "8" || "9" || "0" || "a" || "b" || "c" || "d" || "e" ||"f" || " ")
-			isCode = false;
-		else
-			isCode = true;
-		i++;
-	}
-	if (isCode)
-		_StdIn.putText(input + " is code");
-	else
-		_StdIn.putText(" '" + input + "' " + " is not code");*/
+	} ---------------------------------------------------------*/
+
 }
 
 function shellHelp(args)
@@ -523,7 +506,7 @@ function shellProcesses(args)
 
 function shellRun(args)
 {
-	//_StdIn.putText("Alpaca");
+	//_StdIn.putText("Alpaca"); -- can't just get rid of Alpaca :<
 	if (args.length === 1)
 	{
 		if(args[0] === "0") // want to check what block we are working with
