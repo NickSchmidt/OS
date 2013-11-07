@@ -1,24 +1,30 @@
 /* ----------
 
-	Memory.js
+	memory.js
 	
 	Holds the memory for the programs.
-	The current size of the memory is 256.
+	The current size of the memory is 768.
 	
 ------------- */
 
 function Memory()
 {
-	this.memoryArray = new Array(); // hold the memory as an array
-	
+	this.memory = []; // hold the memory as an array
+	//this.size = _MemorySize; // _MemorySize = 768 (But not a magic number :> )
+
 	this.init = function()
 	{
-		for(i = 0; i < 256; i++)
+		for(i = 0; i < _MemorySize;; i++)
 		{
-			this.memoryArray[i] = "00";
-			document.getElementById(i).innerHTML = this.memoryArray[i]; 
+			//this.memoryArray[i] = "00"; // temporary storage for memory initializing all cells to 00.
+			this.memory[i] = "00"; //new memoryLocation();
+			document.getElementById(i).innerHTML = this.memory[i]; 
 		}
+	};
 	
-		return memoryArray;
+	this.decimal = function(address)
+	{
+		var address = parseInt(address, 16);
+		return address;
 	}
 }

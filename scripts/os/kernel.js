@@ -22,7 +22,8 @@ function krnBootstrap()      // Page 8.
    _KernelBuffers = new Array();         // Buffers... for the kernel.
    _KernelInputQueue = new Queue();      // Where device input lands before being processed out somewhere.
    _Console = new CLIconsole();          // The command line interface / console I/O device.
-
+   _ReadyQueue = new Queue();
+	
    // Initialize the CLIconsole.
    _Console.init();
 
@@ -131,6 +132,12 @@ function krnInterruptHandler(irq, params)    // This is the Interrupt Handler Ro
             krnKeyboardDriver.isr(params);   // Kernel mode device driver
             _StdIn.handleInput();
             break;
+		case CONTEXT_SWITCH_IRQ:			// Context Switching
+			_CPU.ContextSwitch();
+			break;
+		case INVALID_INSTRUCTION_IRQ:
+			_CPU.InvalidInstruction();
+			break;
         default: 
             krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
     }

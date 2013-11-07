@@ -11,6 +11,7 @@
 //
 // Global CONSTANTS
 //
+
 var APP_NAME = "Elysium";  // 'cause I was at a loss for a better name.
 var APP_VERSION = "3.17";   // What did you expect?
 
@@ -20,14 +21,16 @@ var TIMER_IRQ = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (interrupt prio
                     // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 var KEYBOARD_IRQ = 1;  
 
+var CONTEXT_SWITCH_IRQ = 2;
+
+var INVALID_INSTRUCTION_IRQ = 3;
+
 
 //
 // Global Variables
 //
 var _CPU = null;
-
 var _Memory = null;
-
 var _OSclock = 0;       // Page 23.
 
 var _Mode = 0;   // 0 = Kernel Mode, 1 = User Mode.  See page 21.
@@ -45,6 +48,28 @@ var _Trace = true;
 var _KernelInterruptQueue = null;
 var _KernelBuffers = null;
 var _KernelInputQueue = null;
+var _ReadyQueue = null;
+
+// A house for the processes 
+var _ResidentList = new Array();
+
+// Init memory size
+var _MemorySize = 768;
+
+// process controlling
+var _Size = 255;
+var _First = 0; // first block
+var _Second = 256; // second block
+var _Third = 512; // third and final block
+var _Quantum = 6; // default quantum
+var _NumPrograms = 0; // keep track of the number of inputted programs
+var _NumTimesRan = 0;
+
+// process controlling process areas :>
+var _PCB = null;
+var _PCB1 = null;
+var _PCB2 = null;
+var _PCB3 = null;
 
 // Standard input and output
 var _StdIn  = null;

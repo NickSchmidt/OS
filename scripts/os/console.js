@@ -14,7 +14,9 @@ function CLIconsole() {
     this.CurrentXPosition = 0;
     this.CurrentYPosition = _DefaultFontSize;
     this.buffer = "";
-	this.prevMessage = ""; // command history recall. "up" key.
+	var memory = new Array();
+	this.index = 0;
+	//this.prevMessage = ""; // command history recall. "up" key.
     
     // Methods
     this.init = function() {
