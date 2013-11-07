@@ -122,13 +122,41 @@ function shellInit() {
     sc.function = shellPrompt;
     this.commandList[this.commandList.length] = sc;
 	
+	// processes
+	sc = new ShellCommand();
+    sc.command = "processes";
+    sc.description = "- display all running processes";
+    sc.function = shellProcesses;
+    this.commandList[this.commandList.length] = sc;
+	
 	// run <PID>
 	sc = new ShellCommand();
 	sc.command = "run";
-	sc.description = "run <PID> - runs the program with PID.";
+	sc.description = " <PID> - Runs the program with PID.";
 	sc.function = shellRun;
 	this.commandList[this.commandList.length] = sc;
-
+	
+	// runall
+	sc = new ShellCommand();
+	sc.command = "runall";
+	sc.description = " - Runs all programs in memory";
+	sc.function = shellRunAll;
+	this.commandList[this.commandList.length] = sc;
+	
+	// kill
+	sc = new ShellCommand();
+	sc.command = "kill";
+	sc.description = " - The Sheriff is in town (it kills the programs)";
+	sc.function = shellKill;
+	this.commandList[this.commandList.length] = sc;
+	
+	// quantum <int>
+	sc = new ShellCommand();
+	sc.command = "quantum";
+	sc.description = " - Sets the quantum for the processes";
+	sc.function = shellQuantum;
+	this.commandList[this.commandList.length] = sc;
+	
     // processes - list the running processes and their IDs
     // kill <id> - kills the specified process id.
 
@@ -381,21 +409,62 @@ function shellBsod(args)
 function shellLoad(args)
 {
 	var programInput = document.getElementById("taProgramInput").value;
-	var str = /[g-z]/gi;
-	if(!str.test(programInput))
+	var str = /[g-z]/gi; // a string of characters from g - z
+	if(!str.test(programInput)) // if 0-9 or a-F is given, continue.
 	{
-		_StdIn.putText("true");
+		if(_NumPrograms >= 3)
+		{
+			_StdIn.putText("Error: File swapping unknown. Cannot compute");
+		}
+		else
+		{
+			if(_NumPrograms === 0)
+			{
+				var i = _First;
+				_PCB1 = new PCB;
+				_PCB1.init(_NumPrograms);
+				document.getElementById("RL1").innerHTML = _PCB1.toString();
+				_ResidentList.push(_PCB1.toString());
+			}
+			else if(_NumPrograms === 1)
+			{
+				var i = _Second;
+				_PCB2 = new PCB;
+				_PCB2.init(_NumPrograms);
+				document.getElementById("RL2").innerHTML = _PCB2.toString();
+				_ResidentList.push(_PCB2.toString());
+			}
+			else
+			{
+				var i = _Third;
+				_PCB3 = new PCB;
+				_PCB3.init(_NumPrograms);
+				document.getElementById("RL3").innerHTML = _PCB3.toString();
+				_ResidentList.push(_PCB3.toString());
+			}
+			var output = programInput.split(" ");
+			var j = 0;
+			while (j < output.length)
+			{
+				_Memory.memory[i] = output[j];
+				document.getElementById(i).innerHTML = _Memory.memory[i];
+				j++;
+				i++;
+			}
+			_StdIn.putText("PID: " + _NumPrograms++);
+		}
 	}
 	else
-		_StdIn.putText("false");
-	
+		//_StdIn.putText("false");
+		_StdIn.putText("Invalid instruction. Initializing virus scan for protection");
+	/*--------------------------------------------------------
 	var memoryInput = programInput.split(" ");
 	var i = 0;
 	while (i < memoryInput.length)
 	{
 		document.getElementById(i).innerHTML = memoryInput[i];
 		i++;
-	}
+	} ---------------------------------------------------------
 /*
 	var input = document.getElementById("taProgramInput").value;
 	var i = 0;
@@ -426,9 +495,154 @@ function shellHelp(args)
     }    
 }
 
+function shellProcesses(args)
+{
+	if(!_CPU.isExecuting)
+	{
+		_StdIn.putText("Nothing is running");
+	}
+	else
+	{
+		if(!_PCB1.isDone)
+		{
+			_StdIn.putText(_PCB1.toString());
+			_StdIn.advanceLine();
+		}
+		if(!_PCB2.isDone)
+		{
+			_StdIn.putText(_PCB2.toString());
+			_StdIn.advanceLine();
+		}
+		if(!_PCB3.isDone)
+		{
+			_StdIn.putText(_PCB3.toString());
+			_StdIn.advanceLine();
+		}
+	}
+}
+
 function shellRun(args)
 {
-	_StdIn.putText("Alpaca");
+	//_StdIn.putText("Alpaca");
+	if (args.length === 1)
+	{
+		if(args[0] === "0") // want to check what block we are working with
+		{
+			_CPU.PC = _First;
+			_PCB1.isDone = false;
+			document.getElementById("PC").innerHTML = _CPU.PC;
+			if(_ReadyQueue.isEmpty())
+			{
+				_NumTimesRan = 0;
+			}
+			if(_NumTimesRan === 0)
+			{
+				document.getElementById("RQ1").innerHTML = _PCB1.toString();
+				_NumTimesRan++;
+			}
+			else if(_NumTimesRan === 1)
+			{
+				document.getElementById("RQ2").innerHTML = _PCB1.toString();
+				_NumTimesRan++;
+			}
+			else if(_NumTimesRan === 2)
+			{
+				document.getElementById("RQ3").innerHTML = _PCB1.toString();
+				_NumTimesRan = 0;
+			}
+			_CPU.Scheduler(_PCB1);
+			_CPU.isExecuting = true;
+		}
+		else if(args[0] === "1")
+		{
+			_CPU.PC = _Second;
+			_CPU.Scheduler(_PCB2); // move the scheduler up here 
+			_PCB2.isDone = false;
+			document.getElementById("PC").innerHTML = _CPU.PC;
+			if(_NumTimesRan === 0)
+			{
+				document.getElementById("RQ1").innerHTML = _PCB2.toString();
+				_NumTimesRan++;
+			}
+			else if(_NumTimesRan === 1)
+			{
+				document.getElementById("RQ2").innerHTML = _PCB2.toString();
+				_NumTimesRan++;
+			}
+			else if(_NumTimesRan === 2)
+			{
+				document.getElementById("RQ3").innerHTML = _PCB2.toString();
+				_NumTimesRan = 0;
+			}
+			_CPU.isExecuting = true;
+		}
+		else if(args[0] === "2") 
+		{
+			_CPU.PC = _Third;
+			_CPU.Scheduler(_PCB3);
+			_PCB3.isDone = false;
+			document.getElementById("PC").innerHTML = _CPU.PC;
+			if(_NumTimesRan === 0)
+			{
+				document.getElementById("RQ1").innerHTML = _PCB3.toString();
+				_NumTimesRan++;
+			}
+			else if(_NumTimesRan === 1)
+			{
+				document.getElementById("RQ2").innerHTML = _PCB3.toString();
+				_NumTimesRan++;
+			}
+			else if(this.numTimesRan === 2)
+			{
+				document.getElementById("RQ3").innerHTML = _PCB3.toString();
+				_NumTimesRan = 0;
+			}
+			_CPU.isExecuting = true;
+		}
+		// What else can be wrong? Maybe invalid process ID.
+		else
+		{
+			_StdIn.putText("Invalid process ID");
+		}
+	}
+	else
+	{
+		_StdIn.putText("Either no PID, or request for too many programs");
+	}
+}
+
+function shellRunAll(args)
+{
+	_CPU.PC = _First;
+	_CPU.Scheduler(_PCB1);
+	_PCB1.isDone = false;
+	_CPU.isExecuting = true;
+	document.getElementById("PC").innerHTML = _CPU.PC;
+	document.getElementById("RQ1").innerHTML = _PCB1.toString();
+	if(_PCB2 != null)
+	{
+		_CPU.Scheduler(_PCB2);
+		_PCB2.isDone = false;
+		document.getElementById("RQ2").innerHTML = _PCB2.toString();
+	}
+	if(_PCB3 != null)
+	{
+		_CPU.Scheduler(_PCB3);
+		_PCB3.isDone = false;
+		document.getElementById("RQ3").innerHTML = _PCB3.toString();
+	}
+}
+
+function shellQuantum(args)
+{
+	if(args.length > 0)
+	{
+		_Quantum = args[0];
+	}
+	else
+	{
+		_StdIn.putText("Please enter a quantum");
+	}
 }
 
 function shellShutdown(args)
@@ -489,7 +703,7 @@ function shellTrace(args)
                 _StdIn.putText("Trace OFF");                
                 break;                
             default:
-                _StdIn.putText("Invalid arguement.  Usage: trace <on | off>.");
+                _StdIn.putText("Invalid argument.  Usage: trace <on | off>.");
         }        
     }
     else
@@ -520,4 +734,39 @@ function shellPrompt(args)
     {
         _StdIn.putText("Usage: prompt <string>  Please supply a string.");
     }
+}
+
+// may as well put kill on the bottom. It's a dangerous weapon
+function shellKill(args)
+{
+	// first check if there are any targets to shoot at
+	if(!_CPU.isExecuting)
+	{
+		_StdIn.putText("Nothing to shoot at");
+	}
+	// then check where the whiskey process is. Whiskey = weak.
+	else if (args.length > 0)
+	{
+		if(args[0] === "0")
+		{
+			// let's kill it and say that it's done executing.
+			_PCB1.isDone = true;
+		}
+		else if(args[0] === "1")
+		{
+			_PCB2.isDone = true;
+		}
+		else if(args[0] === "2")
+		{
+			_PCB3.isDone = true;
+		}
+		else // The whiskey process was a false alarm :<
+		{
+			_StdIn.putText("That just goes to show you're nothing but a Whiskey Delta");
+		}
+	}
+	else
+	{
+		_StdIn.putText("That just goes to show you're nothing but a Whiskey Delta");
+	}
 }

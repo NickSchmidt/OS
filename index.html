@@ -73,6 +73,7 @@
    <script type="text/javascript" src="scripts/host/control.js"></script>
    <script type="text/javascript" src="scripts/host/devices.js"></script>
    <script type="text/javascript" src="scripts/host/cpu.js"></script>
+   <script type="text/javascript" src="scripts/host/memory.js"></script>
 
    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
    <script type="text/javascript" src="scripts/os/interrupt.js"></script>
@@ -82,6 +83,7 @@
    <script type="text/javascript" src="scripts/os/deviceDriverKeyboard.js"></script>
    <script type="text/javascript" src="scripts/os/queue.js"></script>
    <script type="text/javascript" src="scripts/os/shell.js"></script>
+   <script type="text/javascript" src="scripts/os/PCB.js"></script>
    <script type="text/javascript" src="scripts/os/kernel.js"></script>
 
    <!-- Other Routines -->
@@ -191,12 +193,26 @@
 <th>zFlag</th>
 </tr>
 <tr>
-<td id = "acc">00</td>
-<td id = "pc">00</td>
-<td id = "xreg">00</td>
-<td id = "yreg">00</td>
-<td id = "zflag">00</td>
+<td id = "Acc">00</td>
+<td id = "PC">00</td>
+<td id = "xReg">00</td>
+<td id = "yReg">00</td>
+<td id = "zFlag">00</td>
 </tr>
+</table>
+
+<table border = 1>
+<th>Ready Queue</th>
+<tr><td id = "RQ1">ReadyQ 1</td></tr>
+<tr><td id = "RQ2">ReadyQ 2</td></tr>
+<tr><td id = "RQ3">ReadyQ 3</td></tr>
+</table>
+
+<table border = 1>
+<th>Resident List</th>
+<tr><td id = "RL1">House 1</td></tr>
+<tr><td id = "RL2">House 2</td></tr>
+<tr><td id = "RL3">House 3</td></tr>
 </table>
 
 <table border="1">
@@ -506,61 +522,612 @@
 </tr>
 <tr>
 <th>$100</th>
-<td id = "0">00</td>
-<td id = "1">00</td>
-<td id = "2">00</td>
-<td id = "3">00</td>
-<td id = "4">00</td>
-<td id = "5">00</td>
-<td id = "6">00</td>
-<td id = "7">00</td>
-<td id = "8">00</td>
-<td id = "9">00</td>
-<td id = "10">00</td>
-<td id = "11">00</td>
-<td id = "12">00</td>
-<td id = "13">00</td>
-<td id = "14">00</td>
-<td id = "15">00</td>
+<td id = "256">00</td>
+<td id = "257">00</td>
+<td id = "258">00</td>
+<td id = "259">00</td>
+<td id = "260">00</td>
+<td id = "261">00</td>
+<td id = "262">00</td>
+<td id = "263">00</td>
+<td id = "264">00</td>
+<td id = "265">00</td>
+<td id = "266">00</td>
+<td id = "267">00</td>
+<td id = "268">00</td>
+<td id = "269">00</td>
+<td id = "270">00</td>
+<td id = "271">00</td>
 </tr>
 <tr>
 <th>$110</th>
-<td id = "0">00</td>
-<td id = "1">00</td>
-<td id = "2">00</td>
-<td id = "3">00</td>
-<td id = "4">00</td>
-<td id = "5">00</td>
-<td id = "6">00</td>
-<td id = "7">00</td>
-<td id = "8">00</td>
-<td id = "9">00</td>
-<td id = "10">00</td>
-<td id = "11">00</td>
-<td id = "12">00</td>
-<td id = "13">00</td>
-<td id = "14">00</td>
-<td id = "15">00</td>
+<td id = "272">00</td>
+<td id = "273">00</td>
+<td id = "274">00</td>
+<td id = "275">00</td>
+<td id = "276">00</td>
+<td id = "277">00</td>
+<td id = "278">00</td>
+<td id = "279">00</td>
+<td id = "280">00</td>
+<td id = "281">00</td>
+<td id = "282">00</td>
+<td id = "283">00</td>
+<td id = "284">00</td>
+<td id = "285">00</td>
+<td id = "286">00</td>
+<td id = "287">00</td>
 </tr>
 <tr>
 <th>$120</th>
-<td id = "0">00</td>
-<td id = "1">00</td>
-<td id = "2">00</td>
-<td id = "3">00</td>
-<td id = "4">00</td>
-<td id = "5">00</td>
-<td id = "6">00</td>
-<td id = "7">00</td>
-<td id = "8">00</td>
-<td id = "9">00</td>
-<td id = "10">00</td>
-<td id = "11">00</td>
-<td id = "12">00</td>
-<td id = "13">00</td>
-<td id = "14">00</td>
-<td id = "15">00</td>
+<td id = "288">00</td>
+<td id = "289">00</td>
+<td id = "290">00</td>
+<td id = "291">00</td>
+<td id = "292">00</td>
+<td id = "293">00</td>
+<td id = "294">00</td>
+<td id = "295">00</td>
+<td id = "296">00</td>
+<td id = "297">00</td>
+<td id = "298">00</td>
+<td id = "299">00</td>
+<td id = "300">00</td>
+<td id = "301">00</td>
+<td id = "302">00</td>
+<td id = "303">00</td>
 </tr>
+<tr>
+<th>$130</th>
+<td id = "304">00</td>
+<td id = "305">00</td>
+<td id = "306">00</td>
+<td id = "307">00</td>
+<td id = "308">00</td>
+<td id = "309">00</td>
+	<td id = "310">00</td>
+	<td id = "311">00</td>
+	<td id = "312">00</td>
+	<td id = "313">00</td>
+	<td id = "314">00</td>
+	<td id = "315">00</td>
+	<td id = "316">00</td>
+	<td id = "317">00</td>
+	<td id = "318">00</td>
+	<td id = "319">00</td>
+	</tr>
+	<tr>
+	<th>$140</th>
+	<td id = "320">00</td>
+	<td id = "321">00</td>
+	<td id = "322">00</td>
+	<td id = "323">00</td>
+	<td id = "324">00</td>
+	<td id = "325">00</td>
+	<td id = "326">00</td>
+	<td id = "327">00</td>
+	<td id = "328">00</td>
+	<td id = "329">00</td>
+	<td id = "330">00</td>
+	<td id = "331">00</td>
+	<td id = "332">00</td>
+	<td id = "333">00</td>
+	<td id = "334">00</td>
+	<td id = "335">00</td>
+	</tr>
+	<tr>
+	<th>$150</th>
+	<td id = "336">00</td>
+	<td id = "337">00</td>
+	<td id = "338">00</td>
+	<td id = "339">00</td>
+	<td id = "340">00</td>
+	<td id = "341">00</td>
+	<td id = "342">00</td>
+	<td id = "343">00</td>
+	<td id = "344">00</td>
+	<td id = "345">00</td>
+	<td id = "346">00</td>
+	<td id = "347">00</td>
+	<td id = "348">00</td>
+	<td id = "349">00</td>
+	<td id = "350">00</td>
+	<td id = "351">00</td>
+	</tr>
+	<tr>
+	<th>$160</th>
+	<td id = "352">00</td>
+	<td id = "353">00</td>
+	<td id = "354">00</td>
+	<td id = "355">00</td>
+	<td id = "356">00</td>
+	<td id = "357">00</td>
+	<td id = "358">00</td>
+	<td id = "359">00</td>
+	<td id = "360">00</td>
+	<td id = "361">00</td>
+	<td id = "362">00</td>
+	<td id = "363">00</td>
+	<td id = "364">00</td>
+	<td id = "365">00</td>
+	<td id = "366">00</td>
+	<td id = "367">00</td>
+	</tr>
+	<tr>
+	<th>$170</th>
+	<td id = "368">00</td>
+	<td id = "369">00</td>
+	<td id = "370">00</td>
+	<td id = "371">00</td>
+	<td id = "372">00</td>
+	<td id = "373">00</td>
+	<td id = "374">00</td>
+	<td id = "375">00</td>
+	<td id = "376">00</td>
+	<td id = "377">00</td>
+	<td id = "378">00</td>
+	<td id = "379">00</td>
+	<td id = "380">00</td>
+	<td id = "381">00</td>
+	<td id = "382">00</td>
+	<td id = "383">00</td>
+	</tr>
+	<tr>
+	<th>$180</th>
+	<td id = "384">00</td>
+	<td id = "385">00</td>
+	<td id = "386">00</td>
+	<td id = "387">00</td>
+	<td id = "388">00</td>
+	<td id = "389">00</td>
+	<td id = "390">00</td>
+	<td id = "391">00</td>
+	<td id = "392">00</td>
+	<td id = "393">00</td>
+	<td id = "394">00</td>
+	<td id = "395">00</td>
+	<td id = "396">00</td>
+	<td id = "397">00</td>
+	<td id = "398">00</td>
+	<td id = "399">00</td>
+	</tr>
+	<tr>
+	<th>$190</th>
+	<td id = "400">00</td>
+	<td id = "401">00</td>
+	<td id = "402">00</td>
+	<td id = "403">00</td>
+	<td id = "404">00</td>
+	<td id = "405">00</td>
+	<td id = "406">00</td>
+	<td id = "407">00</td>
+	<td id = "408">00</td>
+	<td id = "409">00</td>
+	<td id = "410">00</td>
+	<td id = "411">00</td>
+	<td id = "412">00</td>
+	<td id = "413">00</td>
+	<td id = "414">00</td>
+	<td id = "415">00</td>
+	</tr>
+	<tr>
+	<th>$1A0</th>
+	<td id = "416">00</td>
+	<td id = "417">00</td>
+	<td id = "418">00</td>
+	<td id = "419">00</td>
+	<td id = "420">00</td>
+	<td id = "421">00</td>
+	<td id = "422">00</td>
+	<td id = "423">00</td>
+	<td id = "424">00</td>
+	<td id = "425">00</td>
+	<td id = "426">00</td>
+	<td id = "427">00</td>
+	<td id = "428">00</td>
+	<td id = "429">00</td>
+	<td id = "430">00</td>
+	<td id = "431">00</td>
+	</tr>
+	<tr>
+	<th>$1B0</th>
+	<td id = "432">00</td>
+	<td id = "433">00</td>
+	<td id = "434">00</td>
+	<td id = "435">00</td>
+	<td id = "436">00</td>
+	<td id = "437">00</td>
+	<td id = "438">00</td>
+	<td id = "439">00</td>
+	<td id = "440">00</td>
+	<td id = "441">00</td>
+	<td id = "442">00</td>
+	<td id = "443">00</td>
+	<td id = "444">00</td>
+	<td id = "445">00</td>
+	<td id = "446">00</td>
+	<td id = "447">00</td>
+	</tr>
+	<tr>
+	<th>$1C0</th>
+	<td id = "448">00</td>
+	<td id = "449">00</td>
+	<td id = "450">00</td>
+	<td id = "451">00</td>
+	<td id = "452">00</td>
+	<td id = "453">00</td>
+	<td id = "454">00</td>
+	<td id = "455">00</td>
+	<td id = "456">00</td>
+	<td id = "457">00</td>
+	<td id = "458">00</td>
+	<td id = "459">00</td>
+	<td id = "460">00</td>
+	<td id = "461">00</td>
+	<td id = "462">00</td>
+	<td id = "463">00</td>
+	</tr>
+	<tr>
+	<th>$1D0</th>
+	<td id = "464">00</td>
+	<td id = "465">00</td>
+	<td id = "466">00</td>
+	<td id = "467">00</td>
+	<td id = "468">00</td>
+	<td id = "469">00</td>
+	<td id = "470">00</td>
+	<td id = "471">00</td>
+	<td id = "472">00</td>
+	<td id = "473">00</td>
+	<td id = "474">00</td>
+	<td id = "475">00</td>
+	<td id = "476">00</td>
+	<td id = "477">00</td>
+	<td id = "478">00</td>
+	<td id = "479">00</td>
+	</tr>
+	<tr>
+	<th>$1E0</th>
+	<td id = "480">00</td>
+	<td id = "481">00</td>
+	<td id = "482">00</td>
+	<td id = "483">00</td>
+	<td id = "484">00</td>
+	<td id = "485">00</td>
+	<td id = "486">00</td>
+	<td id = "487">00</td>
+	<td id = "488">00</td>
+	<td id = "489">00</td>
+	<td id = "490">00</td>
+	<td id = "491">00</td>
+	<td id = "492">00</td>
+	<td id = "493">00</td>
+	<td id = "494">00</td>
+	<td id = "495">00</td>
+	</tr>
+	<tr>
+	<th>$1F0</th>
+	<td id = "496">00</td>
+	<td id = "497">00</td>
+	<td id = "498">00</td>
+	<td id = "499">00</td>
+	<td id = "500">00</td>
+	<td id = "501">00</td>
+	<td id = "502">00</td>
+	<td id = "503">00</td>
+	<td id = "504">00</td>
+	<td id = "505">00</td>
+	<td id = "506">00</td>
+	<td id = "507">00</td>
+	<td id = "508">00</td>
+	<td id = "509">00</td>
+	<td id = "510">00</td>
+	<td id = "511">00</td>
+	</tr>
+		<th>$200</th>
+		<td id = "512">00</td>
+		<td id = "513">00</td>
+		<td id = "514">00</td>
+		<td id = "515">00</td>
+		<td id = "516">00</td>
+		<td id = "517">00</td>
+		<td id = "518">00</td>
+		<td id = "519">00</td>
+		<td id = "520">00</td>
+		<td id = "521">00</td>
+		<td id = "522">00</td>
+		<td id = "523">00</td>
+		<td id = "524">00</td>
+		<td id = "525">00</td>
+		<td id = "526">00</td>
+		<td id = "527">00</td>
+		</tr>
+		<tr>
+		<th>$210</th>
+		<td id = "528">00</td>
+		<td id = "529">00</td>
+		<td id = "530">00</td>
+		<td id = "531">00</td>
+		<td id = "532">00</td>
+		<td id = "533">00</td>
+		<td id = "534">00</td>
+		<td id = "535">00</td>
+		<td id = "536">00</td>
+		<td id = "537">00</td>
+		<td id = "538">00</td>
+		<td id = "539">00</td>
+		<td id = "540">00</td>
+		<td id = "541">00</td>
+		<td id = "542">00</td>
+		<td id = "543">00</td>
+		</tr>
+		<tr>
+		<th>$220</th>
+		<td id = "544">00</td>
+		<td id = "545">00</td>
+		<td id = "546">00</td>
+		<td id = "547">00</td>
+		<td id = "548">00</td>
+		<td id = "549">00</td>
+		<td id = "550">00</td>
+		<td id = "551">00</td>
+		<td id = "552">00</td>
+		<td id = "553">00</td>
+		<td id = "554">00</td>
+		<td id = "555">00</td>
+		<td id = "556">00</td>
+		<td id = "557">00</td>
+		<td id = "558">00</td>
+		<td id = "559">00</td>
+		</tr>
+		<tr>
+		<th>$230</th>
+		<td id = "560">00</td>
+		<td id = "561">00</td>
+		<td id = "562">00</td>
+		<td id = "563">00</td>
+		<td id = "564">00</td>
+		<td id = "565">00</td>
+		<td id = "566">00</td>
+		<td id = "567">00</td>
+		<td id = "568">00</td>
+		<td id = "569">00</td>
+		<td id = "570">00</td>
+		<td id = "571">00</td>
+		<td id = "572">00</td>
+		<td id = "573">00</td>
+		<td id = "574">00</td>
+		<td id = "575">00</td>
+		</tr>
+		<tr>
+		<th>$240</th>
+		<td id = "576">00</td>
+		<td id = "577">00</td>
+		<td id = "578">00</td>
+		<td id = "579">00</td>
+		<td id = "580">00</td>
+		<td id = "581">00</td>
+		<td id = "582">00</td>
+		<td id = "583">00</td>
+		<td id = "584">00</td>
+		<td id = "585">00</td>
+		<td id = "586">00</td>
+		<td id = "587">00</td>
+		<td id = "588">00</td>
+		<td id = "589">00</td>
+		<td id = "590">00</td>
+		<td id = "591">00</td>
+		</tr>
+		<tr>
+		<th>$250</th>
+		<td id = "592">00</td>
+		<td id = "593">00</td>
+		<td id = "594">00</td>
+		<td id = "595">00</td>
+		<td id = "596">00</td>
+		<td id = "597">00</td>
+		<td id = "598">00</td>
+		<td id = "599">00</td>
+		<td id = "600">00</td>
+		<td id = "601">00</td>
+		<td id = "602">00</td>
+		<td id = "603">00</td>
+		<td id = "604">00</td>
+		<td id = "605">00</td>
+		<td id = "606">00</td>
+		<td id = "607">00</td>
+		</tr>
+		<tr>
+		<th>$260</th>
+		<td id = "608">00</td>
+		<td id = "609">00</td>
+		<td id = "610">00</td>
+		<td id = "611">00</td>
+		<td id = "612">00</td>
+		<td id = "613">00</td>
+		<td id = "614">00</td>
+		<td id = "615">00</td>
+		<td id = "616">00</td>
+		<td id = "617">00</td>
+		<td id = "618">00</td>
+		<td id = "619">00</td>
+		<td id = "620">00</td>
+		<td id = "621">00</td>
+		<td id = "622">00</td>
+		<td id = "623">00</td>
+		</tr>
+		<tr>
+		<th>$270</th>
+		<td id = "624">00</td>
+		<td id = "625">00</td>
+		<td id = "626">00</td>
+		<td id = "627">00</td>
+		<td id = "628">00</td>
+		<td id = "629">00</td>
+		<td id = "630">00</td>
+		<td id = "631">00</td>
+		<td id = "632">00</td>
+		<td id = "633">00</td>
+		<td id = "634">00</td>
+		<td id = "635">00</td>
+		<td id = "636">00</td>
+		<td id = "637">00</td>
+		<td id = "638">00</td>
+		<td id = "639">00</td>
+		</tr>
+		<tr>
+		<th>$280</th>
+		<td id = "640">00</td>
+		<td id = "641">00</td>
+		<td id = "642">00</td>
+		<td id = "643">00</td>
+		<td id = "644">00</td>
+		<td id = "645">00</td>
+		<td id = "646">00</td>
+		<td id = "647">00</td>
+		<td id = "648">00</td>
+		<td id = "649">00</td>
+		<td id = "650">00</td>
+		<td id = "651">00</td>
+		<td id = "652">00</td>
+		<td id = "653">00</td>
+		<td id = "654">00</td>
+		<td id = "655">00</td>
+		</tr>
+		<tr>
+		<th>$290</th>
+		<td id = "656">00</td>
+		<td id = "657">00</td>
+		<td id = "658">00</td>
+		<td id = "659">00</td>
+		<td id = "660">00</td>
+		<td id = "661">00</td>
+		<td id = "662">00</td>
+		<td id = "663">00</td>
+		<td id = "664">00</td>
+		<td id = "665">00</td>
+		<td id = "666">00</td>
+		<td id = "667">00</td>
+		<td id = "668">00</td>
+		<td id = "669">00</td>
+		<td id = "670">00</td>
+		<td id = "671">00</td>
+		</tr>
+		<tr>
+		<th>$2A0</th>
+		<td id = "672">00</td>
+		<td id = "673">00</td>
+		<td id = "674">00</td>
+		<td id = "675">00</td>
+		<td id = "676">00</td>
+		<td id = "677">00</td>
+		<td id = "678">00</td>
+		<td id = "679">00</td>
+		<td id = "680">00</td>
+		<td id = "681">00</td>
+		<td id = "682">00</td>
+		<td id = "683">00</td>
+		<td id = "684">00</td>
+		<td id = "685">00</td>
+		<td id = "686">00</td>
+		<td id = "687">00</td>
+		</tr>
+		<tr>
+		<th>$2B0</th>
+		<td id = "688">00</td>
+		<td id = "689">00</td>
+		<td id = "690">00</td>
+		<td id = "691">00</td>
+		<td id = "692">00</td>
+		<td id = "693">00</td>
+		<td id = "694">00</td>
+		<td id = "695">00</td>
+		<td id = "696">00</td>
+		<td id = "697">00</td>
+		<td id = "698">00</td>
+		<td id = "699">00</td>
+		<td id = "700">00</td>
+		<td id = "701">00</td>
+		<td id = "702">00</td>
+		<td id = "703">00</td>
+		</tr>
+		<tr>
+		<th>$2C0</th>
+		<td id = "704">00</td>
+		<td id = "705">00</td>
+		<td id = "706">00</td>
+		<td id = "707">00</td>
+		<td id = "708">00</td>
+		<td id = "709">00</td>
+		<td id = "710">00</td>
+		<td id = "711">00</td>
+		<td id = "712">00</td>
+		<td id = "713">00</td>
+		<td id = "714">00</td>
+		<td id = "715">00</td>
+		<td id = "716">00</td>
+		<td id = "717">00</td>
+		<td id = "718">00</td>
+		<td id = "719">00</td>
+		</tr>
+		<tr>
+		<th>$2D0</th>
+		<td id = "720">00</td>
+		<td id = "721">00</td>
+		<td id = "722">00</td>
+		<td id = "723">00</td>
+		<td id = "724">00</td>
+		<td id = "725">00</td>
+		<td id = "726">00</td>
+		<td id = "727">00</td>
+		<td id = "728">00</td>
+		<td id = "729">00</td>
+		<td id = "730">00</td>
+		<td id = "731">00</td>
+		<td id = "732">00</td>
+		<td id = "733">00</td>
+		<td id = "734">00</td>
+		<td id = "735">00</td>
+		</tr>
+		<tr>
+		<th>$2E0</th>
+		<td id = "736">00</td>
+		<td id = "737">00</td>
+		<td id = "738">00</td>
+		<td id = "739">00</td>
+		<td id = "740">00</td>
+		<td id = "741">00</td>
+		<td id = "742">00</td>
+		<td id = "743">00</td>
+		<td id = "744">00</td>
+		<td id = "745">00</td>
+		<td id = "746">00</td>
+		<td id = "747">00</td>
+		<td id = "748">00</td>
+		<td id = "749">00</td>
+		<td id = "750">00</td>
+		<td id = "751">00</td>
+		</tr>
+		<tr>
+		<th>$2F0</th>
+		<td id = "752">00</td>
+		<td id = "753">00</td>
+		<td id = "754">00</td>
+		<td id = "755">00</td>
+		<td id = "756">00</td>
+		<td id = "757">00</td>
+		<td id = "758">00</td>
+		<td id = "759">00</td>
+		<td id = "760">00</td>
+		<td id = "761">00</td>
+		<td id = "762">00</td>
+		<td id = "763">00</td>
+		<td id = "764">00</td>
+		<td id = "765">00</td>
+		<td id = "766">00</td>
+		<td id = "767">00</td>
+		</tr>
+<!--
 <tr>
 <th>$130</th>
 <td id = "0">00</td>
@@ -1111,7 +1678,7 @@
 <td id = "13">00</td>
 <td id = "14">00</td>
 <td id = "15">00</td>
-</tr>
+</tr> -->
 </table> 
 
 
