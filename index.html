@@ -34,6 +34,7 @@
    <script type="text/javascript" src="scripts/os/console.js"></script>	
    <script type="text/javascript" src="scripts/os/deviceDriver.js"></script>
    <script type="text/javascript" src="scripts/os/deviceDriverKeyboard.js"></script>
+   <script type="text/javascript" src="scripts/os/FileSystemDeviceDriver.js"></script>
    <script type="text/javascript" src="scripts/os/queue.js"></script>
    <script type="text/javascript" src="scripts/os/shell.js"></script>
    <script type="text/javascript" src="scripts/os/PCB.js"></script>
@@ -75,6 +76,15 @@
              value="Reset"
              tabindex="2"
              onclick="hostBtnReset_click(this);">
+			 
+	  <input type="button"
+			 id = "btnDrive"
+			 name="btnDrive"
+			 class="normal_button"
+			 disabled="disabled"
+			 value="Hard Drive"
+			 tabindex="3"
+			 onclick="utilShowMe_click(this);">
    </div>
 
    <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
@@ -138,6 +148,7 @@
 <tr><td id = "RQ1">ReadyQ 1</td></tr>
 <tr><td id = "RQ2">ReadyQ 2</td></tr>
 <tr><td id = "RQ3">ReadyQ 3</td></tr>
+<tr><td id = "RQ4">ReadyQ 4</td></tr>
 </table>
 
 <table border = 1>
@@ -145,6 +156,7 @@
 <tr><td id = "RL1">House 1</td></tr>
 <tr><td id = "RL2">House 2</td></tr>
 <tr><td id = "RL3">House 3</td></tr>
+<tr><td id = "RL4">House 3</td></tr>
 </table>
 
 <table border="1">

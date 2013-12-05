@@ -12,7 +12,7 @@
 // Global CONSTANTS
 //
 
-var APP_NAME = "Elysium";  // 'cause I was at a loss for a better name.
+var APP_NAME = "Elysium";  // I didn't know this was a movie...
 var APP_VERSION = "3.17";   // What did you expect?
 
 var CPU_CLOCK_INTERVAL = 100;   // This is in ms, or milliseconds, so 1000 = 1 second.
@@ -23,7 +23,13 @@ var KEYBOARD_IRQ = 1;
 
 var CONTEXT_SWITCH_IRQ = 2;
 
-var INVALID_INSTRUCTION_IRQ = 3;
+var PRIORITY_IRQ = 3;
+
+var INVALID_INSTRUCTION_IRQ = 4;
+
+var FILE_SYSTEM_IRQ = 5;
+
+var SWAP_IRQ = 6;
 
 
 //
@@ -64,12 +70,29 @@ var _Third = 512; // third and final block
 var _Quantum = 6; // default quantum
 var _NumPrograms = 0; // keep track of the number of inputted programs
 var _NumTimesRan = 0;
+var _QuantumBackup = _Quantum;
+var _CpuSchedule = "rr";
 
 // process controlling process areas :>
 var _PCB = null;
 var _PCB1 = null;
 var _PCB2 = null;
 var _PCB3 = null;
+var _PCB4 = null;
+
+// File System
+var _MBR = "000";
+var _NumTracks = 4;
+var _NumSectors = 8;
+var _NumBlocks = 8;
+var _FSsize = 64;
+var _WritableChar = 59;
+var _FileName = "";
+var _ToBeWritten = "";
+var _ToBeRead = "";
+var _ToBePrinted = true;
+var _StartingPoint = 0;
+var _DidFormat = false;
 
 // Standard input and output
 var _StdIn  = null;
@@ -84,6 +107,7 @@ var _SarcasticMode = false;
 
 // Global Device Driver Objects - page 12
 var krnKeyboardDriver = null;
+var krnHardDriveDriver = null;
 
 // For testing...
 var _GLaDOS = null;

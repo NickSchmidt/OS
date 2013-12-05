@@ -36,22 +36,39 @@ function rot13(str) {   // An easy-to understand implementation of the famous an
     return retVal;
 }
 function startTime()
-	{
-		var today=new Date();
-		var h=today.getHours();
-		var m=today.getMinutes();
-		var s=today.getSeconds();
+{
+	var today=new Date();
+	var h=today.getHours();
+	var m=today.getMinutes();
+	var s=today.getSeconds();
 // add a zero in front of numbers<10
-		m=checkTime(m);
-		s=checkTime(s);
-		document.getElementById('txt').innerHTML=h+":"+m+":"+s;
-		t=setTimeout(function(){startTime()},500);
-	}
+	m=checkTime(m);
+	s=checkTime(s);
+	document.getElementById('txt').innerHTML=h+":"+m+":"+s;
+	t=setTimeout(function(){startTime()},500);
+}
 
-	function checkTime(i)
+function checkTime(i)
+{
+	if (i<10)
+		i="0" + i;
+		
+	return i;
+}
+
+function utilShowMe_click(btn)
+{
+	var HDDInfo = "";
+	for(i = 0; i < _NumTracks; i++)
 	{
-		if (i<10)
-			i="0" + i;
-			
-		return i;
+		for(j = 0; j < _NumSectors; j++)
+		{
+			for(k = 0; k < _NumBlocks; k++)
+			{
+				var TSB = i.toString() + j.toString() + k.toString();
+				HDDInfo += TSB + ": " + localStorage[TSB] + "\n";
+			}
+		}
 	}
+	window.alert(HDDInfo);
+}

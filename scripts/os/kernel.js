@@ -8,8 +8,6 @@
    This code references page numbers in the text book: 
    Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
    ------------ */
-
-
 //
 // OS Startup and Shutdown Routines   
 //
@@ -37,6 +35,12 @@ function krnBootstrap()      // Page 8.
    krnKeyboardDriver.driverEntry();                    // Call the driverEntry() initialization routine.
    krnTrace(krnKeyboardDriver.status);
 
+   // Load the File System Device Driver
+   krnTrace("Loading the Hard Drive device driver.");
+   krnHardDriveDriver = new FileSystemDeviceDriver();    // Construct it.  TODO: Should that have a _global-style name?
+   krnHardDriveDriver.driverEntry();                    // Call the driverEntry() initialization routine.
+   krnTrace(krnHardDriveDriver.status);
+   
    //
    // ... more?
    //
@@ -138,6 +142,15 @@ function krnInterruptHandler(irq, params)    // This is the Interrupt Handler Ro
 		case INVALID_INSTRUCTION_IRQ:
 			_CPU.InvalidInstruction();
 			break;
+		case PRIORITY_IRQ:
+			_CPU.FixPriority();
+			break;
+		case FILE_SYSTEM_IRQ:
+			krnHardDriveDriver.isr(params);
+			break;
+		case SWAP_IRQ:
+			_CPU.Swap(params);
+			break;
         default: 
             krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
     }
@@ -192,7 +205,6 @@ function krnTrace(msg)
 function krnTrapError(msg)
 {
     hostLog("OS ERROR - TRAP: " + msg);
-    // TODO: Display error on console, perhaps in some sort of colored screen. (Perhaps blue?)
 	var img = new Image();
 		img.src = "images/bsod.jpg";
 		img.onload = function(){_DrawingContext.drawImage(img, 0, 0, 650, 500)};

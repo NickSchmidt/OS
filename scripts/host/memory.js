@@ -32,6 +32,7 @@ function memory(){
                         this.memory[i] = "00";
                         document.getElementById(i).innerHTML = this.memory[i];
                         i++;
+						_NumPrograms = 0;
                 }
         };
 	this.decimal = function(address)

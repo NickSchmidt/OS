@@ -146,19 +146,65 @@ function shellInit() {
 	// kill
 	sc = new ShellCommand();
 	sc.command = "kill";
-	sc.description = " - The Sheriff is in town (it kills the programs)";
+	sc.description = "<int> - The Sheriff is in town (it kills the programs)";
 	sc.function = shellKill;
 	this.commandList[this.commandList.length] = sc;
 	
 	// quantum <int>
 	sc = new ShellCommand();
 	sc.command = "quantum";
-	sc.description = " - Sets the quantum for the processes";
+	sc.description = "<int> - Sets the quantum for the processes";
 	sc.function = shellQuantum;
 	this.commandList[this.commandList.length] = sc;
 	
-    // processes - list the running processes and their IDs
-    // kill <id> - kills the specified process id.
+	// scheduler
+	sc = new ShellCommand();
+	sc.command = "setschedule";
+	sc.description = " - Changes scheduling method.";
+	sc.function = shellScheduler;
+	this.commandList[this.commandList.length] = sc;
+	
+	// format
+	sc = new ShellCommand();
+	sc.command = "format";
+	sc.description = " - formats the drive";
+	sc.function = shellFormat;
+	this.commandList[this.commandList.length] = sc;
+	
+	// create <String>
+	sc = new ShellCommand();
+	sc.command = "create";
+	sc.description = "<String> - Creates a new file";
+	sc.function = shellCreate;
+	this.commandList[this.commandList.length] = sc;
+	
+	// read <String>
+	sc = new ShellCommand();
+	sc.command = "read";
+	sc.description = "<String> - Reads file";
+	sc.function = shellRead;
+	this.commandList[this.commandList.length] = sc;
+	
+	// write <String> <String>
+	sc = new ShellCommand();
+	sc.command = "write";
+	sc.description = "<String> <String> - writes to file name with what's in quotes";
+	sc.function = shellWrite;
+	this.commandList[this.commandList.length] = sc;
+	
+	// delete <String>
+	sc = new ShellCommand();
+	sc.command = "delete";
+	sc.description = "<String> - Deletes the file";
+	sc.function = shellDelete;
+	this.commandList[this.commandList.length] = sc;
+	
+	// ls
+	sc = new ShellCommand();
+	sc.command = "ls"
+	sc.description = " - List of all files created"
+	sc.function = shellList;
+	this.commandList[this.commandList.length] = sc;
 
     //
     // Display the initial prompt.
@@ -230,7 +276,7 @@ function shellParseInput(buffer)
     buffer = trim(buffer);
 
     // 2. Lower-case it.
-    buffer = buffer.toLowerCase();
+    //buffer = buffer.toLowerCase();
 
     // 3. Separate on spaces so we can determine the command and command-line args, if any.
     var tempList = buffer.split(" ");
@@ -408,11 +454,16 @@ function shellBsod(args)
 
 function shellLoad(args)
 {
+	var priority = 100;
+	if (args.length === 1)
+	{
+		priority = args[0];
+	}
 	var programInput = document.getElementById("taProgramInput").value;
 	var str = /[g-z]/gi; // a string of characters from g - z
 	if(!str.test(programInput)) // if 0-9 or a-F is given, continue.
 	{
-		if(_NumPrograms >= 3)
+		if(_NumPrograms > 3)
 		{
 			_StdIn.putText("Error: File swapping unknown. Cannot compute");
 		}
@@ -422,7 +473,7 @@ function shellLoad(args)
 			{
 				var i = _First;
 				_PCB1 = new PCB;
-				_PCB1.init(_NumPrograms);
+				_PCB1.init(_NumPrograms, priority);
 				document.getElementById("RL1").innerHTML = _PCB1.toString();
 				_ResidentList.push(_PCB1.toString());
 			}
@@ -430,42 +481,72 @@ function shellLoad(args)
 			{
 				var i = _Second;
 				_PCB2 = new PCB;
-				_PCB2.init(_NumPrograms);
+				_PCB2.init(_NumPrograms, priority);
 				document.getElementById("RL2").innerHTML = _PCB2.toString();
 				_ResidentList.push(_PCB2.toString());
 			}
-			else
+			else if (_NumPrograms === 2)
 			{
 				var i = _Third;
 				_PCB3 = new PCB;
-				_PCB3.init(_NumPrograms);
+				_PCB3.init(_NumPrograms, priority);
 				document.getElementById("RL3").innerHTML = _PCB3.toString();
 				_ResidentList.push(_PCB3.toString());
 			}
+			else if(_NumPrograms === 3)
+			{
+				var i = -1;
+				_PCB4 = new PCB;
+				_PCB4.init(_NumPrograms, priority);
+				document.getElementById("RL4").innerHTML = _PCB4.toString();
+				_ResidentList.push(_PCB4.toString());
+				_NumPrograms = 0;
+			}
 			var output = programInput.split(" ");
 			var j = 0;
-			while (j < output.length)
+			if (i !== -1)
 			{
-				_Memory.memory[i] = output[j];
-				document.getElementById(i).innerHTML = _Memory.memory[i];
-				j++;
-				i++;
+				while (j < output.length)
+				{
+					_Memory.memory[i] = output[j];
+					document.getElementById(i).innerHTML = _Memory.memory[i];
+					j++;
+					i++;
+				}
+				_StdIn.putText("PID: " + _NumPrograms++);
 			}
-			_StdIn.putText("PID: " + _NumPrograms++);
+			else
+			{
+				if(!_DidFormat)
+				{
+					_ToBePrinted = false;
+					shellFormat();
+					_StdIn.putText("Disk formatted");
+					_StdIn.advanceLine();
+				}
+				_StdIn.advanceLine();
+				_FileName = "~SwapFile";
+				_KernelInterruptQueue.enqueue(new Interrupt(FILE_SYSTEM_IRQ, 1));
+				while (j < _Size)
+				{
+					if(output[j])
+					{
+						_ToBeWritten += output[j] + " ";
+						j++;
+					}
+					else
+					{
+						_ToBeWritten += "00 ";
+						j++;
+					}
+				}
+				_FileName = "~SwapFile";
+				_KernelInterruptQueue.enqueue(new Interrupt(FILE_SYSTEM_IRQ, 2));
+			}
 		}
 	}
 	else
-		//_StdIn.putText("false");
 		_StdIn.putText("Invalid instruction. Initializing virus scan for protection");
-	/*--------------------------------------------------------
-	var memoryInput = programInput.split(" ");
-	var i = 0;
-	while (i < memoryInput.length)
-	{
-		document.getElementById(i).innerHTML = memoryInput[i];
-		i++;
-	} ---------------------------------------------------------*/
-
 }
 
 function shellHelp(args)
@@ -512,12 +593,8 @@ function shellRun(args)
 		if(args[0] === "0") // want to check what block we are working with
 		{
 			_CPU.PC = _First;
-			_PCB1.isDone = false;
+			_CPU.Scheduler(_PCB1);
 			document.getElementById("PC").innerHTML = _CPU.PC;
-			if(_ReadyQueue.isEmpty())
-			{
-				_NumTimesRan = 0;
-			}
 			if(_NumTimesRan === 0)
 			{
 				document.getElementById("RQ1").innerHTML = _PCB1.toString();
@@ -533,14 +610,12 @@ function shellRun(args)
 				document.getElementById("RQ3").innerHTML = _PCB1.toString();
 				_NumTimesRan = 0;
 			}
-			_CPU.Scheduler(_PCB1);
 			_CPU.isExecuting = true;
 		}
 		else if(args[0] === "1")
 		{
 			_CPU.PC = _Second;
 			_CPU.Scheduler(_PCB2); // move the scheduler up here 
-			_PCB2.isDone = false;
 			document.getElementById("PC").innerHTML = _CPU.PC;
 			if(_NumTimesRan === 0)
 			{
@@ -563,7 +638,6 @@ function shellRun(args)
 		{
 			_CPU.PC = _Third;
 			_CPU.Scheduler(_PCB3);
-			_PCB3.isDone = false;
 			document.getElementById("PC").innerHTML = _CPU.PC;
 			if(_NumTimesRan === 0)
 			{
@@ -598,21 +672,23 @@ function shellRunAll(args)
 {
 	_CPU.PC = _First;
 	_CPU.Scheduler(_PCB1);
-	_PCB1.isDone = false;
 	_CPU.isExecuting = true;
 	document.getElementById("PC").innerHTML = _CPU.PC;
 	document.getElementById("RQ1").innerHTML = _PCB1.toString();
 	if(_PCB2 != null)
 	{
 		_CPU.Scheduler(_PCB2);
-		_PCB2.isDone = false;
 		document.getElementById("RQ2").innerHTML = _PCB2.toString();
 	}
 	if(_PCB3 != null)
 	{
 		_CPU.Scheduler(_PCB3);
-		_PCB3.isDone = false;
 		document.getElementById("RQ3").innerHTML = _PCB3.toString();
+	}
+	if(_PCB4 != null)
+	{
+		_CPU.Scheduler(_PCB4);
+		document.getElementById("RQ4").innerHTML = _PCB4.toString();
 	}
 }
 
@@ -620,12 +696,167 @@ function shellQuantum(args)
 {
 	if(args.length > 0)
 	{
-		_Quantum = args[0];
+		if(_CpuSchedule === "fcfs" || _CpuSchedule === "priority")
+		{
+			_QuantumBackup = args[0];
+		}
+		else
+		{
+			_Quantum = args[0];
+			_QuantumBackup = _Quantum;
+		}
 	}
 	else
 	{
 		_StdIn.putText("Please enter a quantum");
 	}
+}
+
+function shellScheduler(args)
+{
+	if (args.length > 0)
+	{
+		if(args[0].toLowerCase() === "fcfs" && _CpuSchedule !== "fcfs")
+		{
+			_QuantumBackup = _Quantum;
+			_Quantum = 8675309; 
+			_StdIn.putText("First Come First serve, granny");
+		}
+		else if(args[0].toLowerCase() === "rr" && _CpuSchedule !== "rr")
+		{
+			_Quantum = _QuantumBackup;
+			_StdIn.putText("Round robin, tweet tweet");
+		}
+		else if(args[0].toLowerCase() === "priority" && _CpuSchedule !== "priority")
+		{
+			_QuantumBackup = _Quantum;
+			_Quantum = 8675309;
+			_StdIn.putText("Priority...");
+		}
+	}
+	else
+		_StdIn.putText("Pick a scheduling method");
+}
+
+function shellDelete(args)
+{
+	if(_DidFormat)
+	{
+		var tempName = args[0];
+		var nameValidator =  /\W/gi;
+		if(tempName.length < 8 && !nameValidator.test(tempName))
+		{
+			_FileName = tempName.toLowerCase().trim();
+			_KernelInterruptQueue.enqueue( new Interrupt(FILE_SYSTEM_IRQ, 4) ); 
+			_StdIn.advanceLine();
+		}
+		else
+			_StdIn.putText("8 character limit max");
+	}
+	else
+		_StdIn.putText("Format first");
+}
+
+function shellList(args)
+{
+	if(_DidFormat)
+	{
+		_KernelInterruptQueue.enqueue( new Interrupt(FILE_SYSTEM_IRQ, 5) );
+	}
+	else
+		_StdIn.putText("Format first");
+}
+
+function shellFormat(args)
+{
+	_DidFormat = true;
+	_KernelInterruptQueue.enqueue( new Interrupt(FILE_SYSTEM_IRQ, 0) );  
+	if(_ToBePrinted)
+	{
+		_StdIn.putText("All done, but...d..don't get used to it...it's not like I did it because I wanted to...");
+		_StdIn.advanceLine();
+	}
+	else
+	{
+		_ToBePrinted = true;
+	}
+}
+
+function shellCreate(args)
+{
+	if(_DidFormat)
+	{
+		if (args.length === 0)
+		{
+			_StdIn.putText("Please enter a name");
+		}
+		var tempName = args[0];
+		var nameValidator =  /\W/gi;
+		if(tempName.length < 8 && !nameValidator.test(tempName))
+		{
+			_FileName = "";
+			_FileName = tempName.toLowerCase().trim();
+			_KernelInterruptQueue.enqueue( new Interrupt(FILE_SYSTEM_IRQ, 1) );  
+			_StdIn.putText("file " + _FileName + " was created");
+			_StdIn.advanceLine();
+		}
+		else
+			_StdIn.putText("No special characters and 8 character limit");
+	}
+	else
+		_StdIn.putText("Format first");
+}
+
+function shellWrite(args)
+{
+	if(_DidFormat)
+	{
+		if (args.length <= 1)
+			_StdIn.putText("Write to which file?");
+		else
+		{
+			var tempName = args[0];
+			var nameValidator =  /\W/gi;
+			_ToBeWritten = "";
+			for(i = 1; i < args.length; i++)
+			{
+				_ToBeWritten += args[i] + " ";
+			}
+			if(tempName.length < 8 && !nameValidator.test(tempName))
+			{
+				_FileName = tempName.toLowerCase().trim();
+				_KernelInterruptQueue.enqueue( new Interrupt(FILE_SYSTEM_IRQ, 2) ); 
+				_StdIn.putText("Write successful");
+				_StdIn.advanceLine();				
+			}
+			else
+				_StdIn.putText("No special characters and 8 character limit");
+		}
+	}
+	else
+		_StdIn.putText("Format first");
+}
+
+function shellRead(args)
+{
+	if(_DidFormat)
+	{
+		var tempName = args[0];
+		var nameValidator =  /\W/gi;
+		if(tempName.length < 8 && !nameValidator.test(tempName))
+		{
+			_FileName = tempName.toLowerCase().trim();
+			_KernelInterruptQueue.enqueue( new Interrupt(FILE_SYSTEM_IRQ, 3) ); 
+			for(i = 0; i < _ToBeRead.length; i++)
+			{
+				_StdIn.putText(_ToBeRead[i]);
+			}
+		}
+		else
+			_StdIn.putText("File not found");
+	}
+	else
+		_StdIn.putText("Format first");
 }
 
 function shellShutdown(args)
@@ -745,7 +976,7 @@ function shellKill(args)
 		}
 		else // The whiskey process was a false alarm :<
 		{
-			_StdIn.putText("That just goes to show you're nothing but a Whiskey Delta");
+			_StdIn.putText("That just goes to show you're nothing but a Whiskey Delta (nothing to kill)");
 		}
 	}
 	else
